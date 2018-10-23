@@ -1,0 +1,30 @@
+{
+  "name": "vojir/nette-database-translator",
+  "type": "library",
+  "description": "Simple, database based translator for usage in Nette projects",
+  "keywords": [
+    "nette",
+    "translation"
+  ],
+  "homepage": "https://github.com/vojir/Nette-DatabaseTrabslator",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Stanislav Vojíř",
+      "homepage": "https://vojir.net"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/vojir/Nette-DatabaseTranslator/issues"
+  },
+  "require": {
+    "php": ">=5.5.0",
+    "nette/di": "^2.4",
+    "nette/utils": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vojir\\DatabaseTranslator\\": "src/"
+    }
+  }
+}
