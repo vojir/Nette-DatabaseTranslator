@@ -16,13 +16,14 @@ class DatabaseTranslator implements ITranslator{
   private $lang;
   private $domains=[];
   private $connection;
+  private $saveNewStringsForLanguages=[];
 
   /**
    * DatabaseTranslator constructor.
    * @param Connection $dibiConnection
    */
   public function __construct(Connection $dibiConnection){
-    $this->connection=$dibiConnection;
+    $this->connection = $dibiConnection;
   }
 
   /**
@@ -31,7 +32,19 @@ class DatabaseTranslator implements ITranslator{
    * @param  int      $count plural
    * @return string
    */
-  function translate($message, $count = null) {
+  public function translate($message, $count = null) {
+    $lang=$this->getLang();
+    try{
+      $dbResult=$this->connection->query('SELECT [translated] FROM [lang] WHERE [language]=? AND [text]=? LIMIT 1;',$lang,$message);
+      $translated=$dbResult->fetchSingle();
+    }catch (\Exception $e){
+      $translated='';
+    }
+    if ($translated){
+      return $translated;
+    }elseif ($translated===false && isset($this->saveNewStringsForLanguages[$lang])){
+      $this->connection->query('INSERT INTO [lang] ([text],[language]) VALUES (?,?);',$message,$lang);
+    }
     return $message;
   }
 
@@ -51,6 +64,7 @@ class DatabaseTranslator implements ITranslator{
     $this->lang=$language;
   }
 
+  #region language detection by web domain
   /**
    * Method for auto-detection of language using the list of domains
    * @param IRequest $request
@@ -87,5 +101,20 @@ class DatabaseTranslator implements ITranslator{
       }
     }
     return '';
+  }
+  #endregion language detection by web domain
+
+  /**
+   * @param string|array $languages
+   */
+  public function setSaveNewStringsForLanguages($languages){
+    $this->saveNewStringsForLanguages=[];
+    if (is_array($languages)){
+      foreach ($languages as $language){
+        $this->saveNewStringsForLanguages[$language]=$language;
+      }
+    }elseif(is_string($languages)){
+      $this->saveNewStringsForLanguages[$languages]=$languages;
+    }
   }
 }
