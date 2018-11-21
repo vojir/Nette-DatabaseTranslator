@@ -28,12 +28,18 @@ class DatabaseTranslator implements ITranslator{
 
   /**
    * Translates the given string.
-   * @param  string   $message
-   * @param  int      $count plural
+   * @param string $message
+   * @param int $count plural
+   * @param null $language
    * @return string
+   * @throws \Dibi\Exception
    */
-  public function translate($message, $count = null) {
-    $lang=$this->getLang();
+  public function translate($message, $count = null, $language=null) {
+    if (!empty($language)){
+      $lang=$this->detectLang($language);
+    }else{
+      $lang=$this->getLang();
+    }
     try{
       $dbResult=$this->connection->query('SELECT [translated] FROM [lang] WHERE [language]=? AND [text]=? LIMIT 1;',$lang,$message);
       $translated=$dbResult->fetchSingle();
@@ -61,7 +67,17 @@ class DatabaseTranslator implements ITranslator{
    * @param string $language
    */
   public function setLang($language){
-    $this->lang=$language;
+    $this->lang=$this->detectLang($language);
+  }
+
+  /**
+   * Method returning supported language
+   * @param string $language
+   * @return string
+   */
+  public function detectLang($language){
+    // TODO: Implement detectLang() method.
+    return $language;
   }
 
   #region language detection by web domain
