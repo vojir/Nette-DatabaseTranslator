@@ -85,6 +85,13 @@ class DatabaseTranslator implements ITranslator{
   }
 
   /**
+   * @return array
+   */
+  public function getDomains(){
+    return $this->domains;
+  }
+
+  /**
    * Method returning domain attached to language
    * @param string $lang=''
    * @return string
