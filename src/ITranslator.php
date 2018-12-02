@@ -31,6 +31,11 @@ interface ITranslator extends \Nette\Localization\ITranslator{
   public function detectLang($language);
 
   /**
+   * Method returning array of supported languages
+   * @return mixed
+   */
+  public function getSupportedLanguages();
+  /**
    * @param string $message
    * @param null|int $count
    * @param null|string $language

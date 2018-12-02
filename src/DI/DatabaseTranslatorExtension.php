@@ -12,6 +12,7 @@ class DatabaseTranslatorExtension extends \Nette\DI\CompilerExtension{
 
   private $defaults = [
     'defaultLang' => 'en',
+    'languages'=>[],
     'domains' => [],
     'saveNew' => false
   ];
@@ -20,12 +21,15 @@ class DatabaseTranslatorExtension extends \Nette\DI\CompilerExtension{
     $config=$this->validateConfig($this->defaults);
     $container = $this->getContainerBuilder();
     $serviceDefinition=$container->addDefinition($this->prefix('translator'));
-    $serviceDefinition->setType('Vojir\\DatabaseTranslator\\DatabaseTranslator');
     $serviceDefinition->addSetup('setLang',[$config['defaultLang']]);
+    $serviceDefinition->setType('Vojir\\DatabaseTranslator\\DatabaseTranslator');
     $serviceDefinition->addSetup('setSaveNewStringsForLanguages',[$config['saveNew']]);
     if (!empty($config['domains'])){
       $serviceDefinition->addSetup('setDomains',[$config['domains']]);
       $serviceDefinition->addSetup('detectLangByDomain');
+    }
+    if (!empty($config['languages'])){
+      $serviceDefinition->addSetup('setSupportedLanguages',[$config['languages']]);
     }
   }
 

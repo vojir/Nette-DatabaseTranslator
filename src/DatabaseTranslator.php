@@ -14,6 +14,8 @@ use Nette\Http\IRequest;
 class DatabaseTranslator implements ITranslator{
 
   private $lang;
+  private $defaultLang;
+  private $supportedLanguages=[];
   private $domains=[];
   private $connection;
   private $saveNewStringsForLanguages=[];
@@ -71,12 +73,34 @@ class DatabaseTranslator implements ITranslator{
   }
 
   /**
+   * Method returning the default language
+   * @return string
+   */
+  public function getDefaultLang() {
+    return $this->lang;
+  }
+
+  /**
+   * Method for selection of the default language
+   * @param string $language
+   */
+  public function setDefaultLang($language){
+    $this->defaultLang=$language;
+  }
+
+  /**
    * Method returning supported language
    * @param string $language
    * @return string
    */
   public function detectLang($language){
-    // TODO: Implement detectLang() method.
+    if (!empty($this->supportedLanguages)){
+      if (in_array($language,$this->supportedLanguages)){
+        return $language;
+      }elseif(!empty($this->defaultLang)){
+        return $this->defaultLang;
+      }
+    }
     return $language;
   }
 
@@ -105,6 +129,23 @@ class DatabaseTranslator implements ITranslator{
    */
   public function getDomains(){
     return $this->domains;
+  }
+
+  /**
+   * Method for setting of array of supported languages
+   * @param array $languages
+   */
+  public function setSupportedLanguages(array $languages){
+    $this->supportedLanguages=$languages;
+  }
+
+
+  /**
+   * Method for getting of array of supported languages
+   * @return array
+   */
+  public function getSupportedLanguages(){
+    return $this->supportedLanguages;
   }
 
   /**
