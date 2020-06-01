@@ -6,7 +6,7 @@
     "nette",
     "translation"
   ],
-  "homepage": "https://github.com/vojir/Nette-DatabaseTrabslator",
+  "homepage": "https://github.com/vojir/Nette-DatabaseTranslator",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -18,9 +18,9 @@
     "issues": "https://github.com/vojir/Nette-DatabaseTranslator/issues"
   },
   "require": {
-    "php": ">=5.5.0",
-    "nette/di": "^2.4",
-    "nette/utils": "^2.4"
+    "php": ">= 7.2",
+    "nette/di": "^3.0",
+    "nette/utils": "^3.1"
   },
   "autoload": {
     "psr-4": {

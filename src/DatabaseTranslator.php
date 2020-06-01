@@ -30,13 +30,13 @@ class DatabaseTranslator implements ITranslator{
 
   /**
    * Translates the given string.
-   * @param string $message
-   * @param int $count plural
-   * @param null $language
+   * @param mixed $message
+   * @param string|null $language = null
+   * @param mixed ...$parameters
    * @return string
    * @throws \Dibi\Exception
    */
-  public function translate($message, $count = null, $language=null) {
+  function translate($message, $language=null, ...$parameters): string{
     if (!empty($language)){
       $lang=$this->detectLang($language);
     }else{
@@ -60,7 +60,7 @@ class DatabaseTranslator implements ITranslator{
    * Method returning the actual language
    * @return string
    */
-  public function getLang() {
+  public function getLang(): string{
     return $this->lang;
   }
 
@@ -68,7 +68,7 @@ class DatabaseTranslator implements ITranslator{
    * Method for selection of the actual language
    * @param string $language
    */
-  public function setLang($language){
+  public function setLang(string $language){
     $this->lang=$this->detectLang($language);
   }
 
@@ -76,7 +76,7 @@ class DatabaseTranslator implements ITranslator{
    * Method returning the default language
    * @return string
    */
-  public function getDefaultLang() {
+  public function getDefaultLang(): string{
     return $this->lang;
   }
 
@@ -84,7 +84,7 @@ class DatabaseTranslator implements ITranslator{
    * Method for selection of the default language
    * @param string $language
    */
-  public function setDefaultLang($language){
+  public function setDefaultLang(string $language){
     $this->defaultLang=$language;
   }
 
@@ -93,7 +93,7 @@ class DatabaseTranslator implements ITranslator{
    * @param string $language
    * @return string
    */
-  public function detectLang($language){
+  public function detectLang(string $language): string{
     if (!empty($this->supportedLanguages)){
       if (in_array($language,$this->supportedLanguages)){
         return $language;
@@ -133,7 +133,7 @@ class DatabaseTranslator implements ITranslator{
 
   /**
    * Method for setting of array of supported languages
-   * @param array $languages
+   * @param string[] $languages
    */
   public function setSupportedLanguages(array $languages){
     $this->supportedLanguages=$languages;
@@ -144,7 +144,7 @@ class DatabaseTranslator implements ITranslator{
    * Method for getting of array of supported languages
    * @return array
    */
-  public function getSupportedLanguages(){
+  public function getSupportedLanguages(): array{
     return $this->supportedLanguages;
   }
 
@@ -153,7 +153,7 @@ class DatabaseTranslator implements ITranslator{
    * @param string $lang=''
    * @return string
    */
-  public function getDomainByLang($lang=''){
+  public function getDomainByLang(string $lang=''): string{
     if ($lang==''){
       $lang=$this->getLang();
     }

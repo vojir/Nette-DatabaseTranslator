@@ -15,32 +15,33 @@ interface ITranslator extends \Nette\Localization\ITranslator{
    * Method returning the actual language
    * @return string
    */
-  public function getLang();
+  public function getLang(): string;
 
   /**
    * Method for selection of the actual language
    * @param string $language
    */
-  public function setLang($language);
+  public function setLang(string $language);
 
   /**
    * Method returning supported language
    * @param string $language
    * @return string
    */
-  public function detectLang($language);
+  public function detectLang(string $language): string;
 
   /**
    * Method returning array of supported languages
-   * @return mixed
+   * @return array
    */
-  public function getSupportedLanguages();
+  public function getSupportedLanguages(): array;
+
   /**
-   * @param string $message
-   * @param null|int $count
-   * @param null|string $language
+   * Translates the given string.
+   * @param mixed $message
+   * @param string|null $language
+   * @param mixed ...$parameters
    * @return string
    */
-  public function translate($message, $count = null, $language=null);
-
+  function translate($message, $language=null, ...$parameters): string;
 }
