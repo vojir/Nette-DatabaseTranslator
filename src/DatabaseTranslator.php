@@ -44,7 +44,9 @@ class DatabaseTranslator implements ITranslator{
     }
     try{
       $dbResult=$this->connection->query('SELECT [translated] FROM [lang] WHERE [language]=? AND [text]=? LIMIT 1;',$lang,$message);
-      return $dbResult->fetchSingle();
+      if($translated=$dbResult->fetchSingle()){
+        return $translated;
+      }
     }catch (\Exception $e){
       if (isset($this->saveNewStringsForLanguages[$lang])){
         try{
