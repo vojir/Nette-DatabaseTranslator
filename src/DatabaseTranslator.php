@@ -46,13 +46,17 @@ class DatabaseTranslator implements ITranslator{
       $dbResult=$this->connection->query('SELECT [translated] FROM [lang] WHERE [language]=? AND [text]=? LIMIT 1;',$lang,$message);
       if($translated=$dbResult->fetchSingle()){
         return $translated;
+      }elseif($translated===null){
+        $translated=false;
       }
     }catch (\Exception $e){
-      if (isset($this->saveNewStringsForLanguages[$lang])){
-        try{
-          $this->connection->query('INSERT INTO [lang] ([text],[language]) VALUES (?,?);', $message, $lang);
-        }catch (\Exception $e){/*ignore error*/
-        }
+      $translated=false;
+    }
+
+    if (($translated===false) && isset($this->saveNewStringsForLanguages[$lang])){
+      try{
+        $this->connection->query('INSERT INTO [lang] ([text],[language]) VALUES (?,?);', $message, $lang);
+      }catch (\Exception $e){/*ignore error*/
       }
     }
 
