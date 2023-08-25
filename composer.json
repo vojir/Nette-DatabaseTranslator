@@ -18,7 +18,7 @@
     "issues": "https://github.com/vojir/Nette-DatabaseTranslator/issues"
   },
   "require": {
-    "php": ">= 7.2",
+    "php": ">= 7.4",
     "nette/di": "^3.0",
     "nette/utils": "^3.1",
     "dibi/dibi": "~3.0 | ^4.2"
